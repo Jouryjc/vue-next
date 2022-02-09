@@ -40,6 +40,8 @@ let renderer: Renderer<Element | ShadowRoot> | HydrationRenderer
 let enabledHydration = false
 
 function ensureRenderer() {
+  // 缓存renderer，在初始化之后，renderer就确认了，不需要每次都去创建。
+  // 默认都是浏览器dom的操作
   return (
     renderer ||
     (renderer = createRenderer<Node, Element | ShadowRoot>(rendererOptions))
@@ -64,6 +66,7 @@ export const hydrate = ((...args) => {
 }) as RootHydrateFunction
 
 export const createApp = ((...args) => {
+  // ensureRenderer 可自定义 render 函数，默认调用浏览器的渲染API
   const app = ensureRenderer().createApp(...args)
 
   if (__DEV__) {

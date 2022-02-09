@@ -178,13 +178,16 @@ export function createAppAPI<HostElement>(
   render: RootRenderFunction,
   hydrate?: RootHydrateFunction
 ): CreateAppFunction<HostElement> {
+  // 接受一个根组件
   return function createApp(rootComponent, rootProps = null) {
     if (rootProps != null && !isObject(rootProps)) {
       __DEV__ && warn(`root props passed to app.mount() must be an object.`)
       rootProps = null
     }
 
+    // 创建app上下文信息
     const context = createAppContext()
+    // 收集安装的插件
     const installedPlugins = new Set()
 
     let isMounted = false
