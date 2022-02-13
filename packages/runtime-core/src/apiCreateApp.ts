@@ -149,7 +149,7 @@ export function createAppContext(): AppContext {
   return {
     app: null as any,
     config: {
-      isNativeTag: NO,
+      isNativeTag: NO,  
       performance: false,
       globalProperties: {},
       optionMergeStrategies: {},
@@ -283,6 +283,7 @@ export function createAppAPI<HostElement>(
         isSVG?: boolean
       ): any {
         if (!isMounted) {
+          // 创建 VNode
           const vnode = createVNode(
             rootComponent as ConcreteComponent,
             rootProps

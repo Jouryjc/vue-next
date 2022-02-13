@@ -435,6 +435,7 @@ function createBaseVNode(
     appContext: null
   } as VNode
 
+  // 对子节点做标准化
   if (needFullChildrenNormalization) {
     normalizeChildren(vnode, children)
     // normalize suspense children
@@ -524,6 +525,7 @@ function _createVNode(
   }
 
   // class & style normalization.
+  // 对 props 做标准化处理
   if (props) {
     // for reactive or proxy objects, we need to clone it to enable mutation.
     props = guardReactiveProps(props)!
@@ -542,6 +544,7 @@ function _createVNode(
   }
 
   // encode the vnode type information into a bitmap
+  // 对 VNode 的类型做编码
   const shapeFlag = isString(type)
     ? ShapeFlags.ELEMENT
     : __FEATURE_SUSPENSE__ && isSuspense(type)
@@ -566,6 +569,7 @@ function _createVNode(
     )
   }
 
+  // 创建 VNode 对象
   return createBaseVNode(
     type,
     props,

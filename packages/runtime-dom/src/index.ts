@@ -80,6 +80,7 @@ export const createApp = ((...args) => {
     if (!container) return
 
     const component = app._component
+    // 如果没有定义 component、render 和 template 属性，就取 innerHTML 作为内容
     if (!isFunction(component) && !component.render && !component.template) {
       // __UNSAFE__
       // Reason: potential execution of JS expressions in in-DOM template.
@@ -103,6 +104,7 @@ export const createApp = ((...args) => {
 
     // clear content before mounting
     container.innerHTML = ''
+    // 调用无平台差异的 mount 函数实现真正的挂载
     const proxy = mount(container, false, container instanceof SVGElement)
     if (container instanceof Element) {
       container.removeAttribute('v-cloak')

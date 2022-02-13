@@ -451,8 +451,10 @@ export function createComponentInstance(
   parent: ComponentInternalInstance | null,
   suspense: SuspenseBoundary | null
 ) {
+  // type是调用createApp时传入的对象
   const type = vnode.type as ConcreteComponent
   // inherit parent app context - or - if root, adopt from root vnode
+  // 继承父组件的上下文，如果是根组件，就从根VNode获取
   const appContext =
     (parent ? parent.appContext : vnode.appContext) || emptyAppContext
 
@@ -586,10 +588,13 @@ export function setupComponent(
   isInSSRComponentSetup = isSSR
 
   const { props, children } = instance.vnode
+  // 状态组件
   const isStateful = isStatefulComponent(instance)
+  // 初始化props
   initProps(instance, props, isStateful, isSSR)
+  // 初始化slots
   initSlots(instance, children)
-
+  // 设置状态组件
   const setupResult = isStateful
     ? setupStatefulComponent(instance, isSSR)
     : undefined
@@ -601,6 +606,7 @@ function setupStatefulComponent(
   instance: ComponentInternalInstance,
   isSSR: boolean
 ) {
+  // type即我们传入createApp的参数对象
   const Component = instance.type as ComponentOptions
 
   if (__DEV__) {
@@ -638,11 +644,13 @@ function setupStatefulComponent(
   // 2. call setup()
   const { setup } = Component
   if (setup) {
+    // 获取调用setup函数的上下文
     const setupContext = (instance.setupContext =
       setup.length > 1 ? createSetupContext(instance) : null)
 
     setCurrentInstance(instance)
     pauseTracking()
+    // 调用setup函数
     const setupResult = callWithErrorHandling(
       setup,
       instance,
@@ -675,6 +683,7 @@ function setupStatefulComponent(
         )
       }
     } else {
+      // 处理setup函数返回的结果
       handleSetupResult(instance, setupResult, isSSR)
     }
   } else {
